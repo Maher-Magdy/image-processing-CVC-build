@@ -252,7 +252,7 @@ def air_drawing(image):
 
         # get the max contour
         contour,contour_area = get_contour_max_area(contours,True)
-        if contour_area<10000:
+        if contour_area<1000:
             return (-1,-1)
         # get top point for finger index
         top_point = tuple(contour[contour[:, :, 1].argmin()][0])
