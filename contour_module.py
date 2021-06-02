@@ -79,7 +79,7 @@ def get_estimate_parameters(image):
     # parameter 4 get the arclength of convex hull
 
     # draw stuff on a random image
-    image2=cv2.imread('1.jpg', 1)
+    # image2=cv2.imread('1.jpg', 1)
     # determine contour
     contours, hierarchy2 = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -87,7 +87,7 @@ def get_estimate_parameters(image):
     contour=get_contour_max_area(contours)
 
     # draw contour
-    image2 = cv2.drawContours(image2, contours, -1, (0, 255, 20), 3)
+    # image2 = cv2.drawContours(image2, contours, -1, (0, 255, 20), 3)
 
 
     # find convex hull
@@ -117,7 +117,7 @@ def get_estimate_parameters(image):
         # ///////////////// parameter 2 area of triangle in defects
         triangle_area.append( 0.5 * d * distance)
         # draw convex hull
-        cv2.line(image2, start, end, [255, 0, 0], 2)
+        # cv2.line(image2, start, end, [255, 0, 0], 2)
         # /////////// parameter 3 theta of triangle in defects
         #  get the angle of the triangle
         a1 = get_dist_and_slope(start[0], start[1], far[0], far[1])[0]
@@ -129,9 +129,9 @@ def get_estimate_parameters(image):
             hull_side_length.append(a3)
 
 
-        if triangle_area[i]>50000 and theta[i]<90:
-            # draw defects
-            cv2.circle(image2, far, 5, [0, 0, 255], -1)
+        # if triangle_area[i]>50000 and theta[i]<90:
+        #     # draw defects
+        #     cv2.circle(image2, far, 5, [0, 0, 255], -1)
 
     parameter2 = triangle_area
     parameter3=theta
@@ -170,10 +170,10 @@ def get_estimate_parameters(image):
     # show contour on plt.show
 
     # show contour image
-    b=plt.figure(2)
-    plt.imshow(image2,cmap="gray")
-    # b.show()
-    plt.show()
+    # b=plt.figure(2)
+    # plt.imshow(image2,cmap="gray")
+    # # b.show()
+    # plt.show()
 
     # return
     return parameter1,parameter2,parameter3,parameter4
@@ -195,12 +195,12 @@ def main(image):
 # #  for testing
 # image=get_binary_image("44.png")
 # print(main(image))
-mask=get_binary_image("11.PNG")
-kernel = np.ones((3, 3), np.uint8)
-kernel_for_erosion=np.array([[1],[1],[1],[1],[1],[1],[1]])
-# mask = cv2.dilate(mask, kernel, iterations=4)
-mask = cv2.erode(mask, kernel, iterations=8)
-print(main(mask))
+# mask=get_binary_image("11.PNG")
+# kernel = np.ones((3, 3), np.uint8)
+# kernel_for_erosion=np.array([[1],[1],[1],[1],[1],[1],[1]])
+# # mask = cv2.dilate(mask, kernel, iterations=4)
+# mask = cv2.erode(mask, kernel, iterations=8)
+# print(main(mask))
 
 
 '''
