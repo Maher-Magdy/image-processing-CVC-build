@@ -84,8 +84,8 @@ def get_the_no_of_fingers(parameter1,parameter2,parameter3,parameter4,parameter5
     if no_of_fingers_from_parameter2==no_of_fingers_from_parameter4 and no_of_fingers_from_parameter2==no_of_fingers_from_parameter5:
         text=str(no_of_fingers_from_parameter2)
     else:
-        text=str(no_of_fingers_from_parameter2)+" or " +str(no_of_fingers_from_parameter4)+" or " +str(no_of_fingers_from_parameter5)
-        normalized=(no_of_fingers_from_parameter2+no_of_fingers_from_parameter4+no_of_fingers_from_parameter5)/3
+        # text=str(no_of_fingers_from_parameter2)+" or " +str(no_of_fingers_from_parameter4)+" or " +str(no_of_fingers_from_parameter5)
+        text=str(round((no_of_fingers_from_parameter2+no_of_fingers_from_parameter4+no_of_fingers_from_parameter5)/3))
     return str(text)
 
 # takes a binary image and return estimated parameters like area
@@ -105,8 +105,6 @@ def get_estimate_parameters(image):
 
     # get the max contour
     contour=get_contour_max_area(contours)
-
-
 
 
     # find convex hull
@@ -180,7 +178,7 @@ def get_estimate_parameters(image):
     intersections_contours_list=[]
     for cnt in intersections_contours:
         (x1, y1), r1 = cv2.minEnclosingCircle(cnt)
-        cv2.circle(image2, (int(x1), int(y1)), int(r1), (255, 0, 255), 2)
+        # cv2.circle(image2, (int(x1), int(y1)), int(r1), (255, 0, 255), 2)
 
         if (get_dist_and_slope(x,-y,x1,-y1,True)[1]>0 and get_dist_and_slope(x,-y,x1,-y1,True)[1]<190) or(get_dist_and_slope(x,-y,x1,-y1,True)[1]<0 and get_dist_and_slope(x,-y,x1,-y1,True)[1]>-30):
             intersections_contours_list.append(get_dist_and_slope(x,-y,x1,-y1,True)[1])
@@ -232,16 +230,16 @@ def get_estimate_parameters(image):
 
     # show contour on plt.show
 
-    # draw contour
-    image2 = cv2.drawContours(image2, contours, -1, (0, 255, 20), 3)
-    cv2.circle(image2, (int(x), int(y)), int(scaled_radius), (255, 0, 255), 2)
-    # draw circle intersecting with contour
-    image2 = intersections
-    # show contour image
-    b=plt.figure(2)
-    plt.imshow(image2,cmap="gray")
-    # b.show()
-    plt.show()
+    # # draw contour
+    # image2 = cv2.drawContours(image2, contours, -1, (0, 255, 20), 3)
+    # cv2.circle(image2, (int(x), int(y)), int(scaled_radius), (255, 0, 255), 2)
+    # # draw circle intersecting with contour
+    # image2 = intersections
+    # # show contour image
+    # b=plt.figure(2)
+    # plt.imshow(image2,cmap="gray")
+    # # b.show()
+    # plt.show()
 
     # return
     return parameter1,parameter2,parameter3,parameter4,parameter5
@@ -263,11 +261,11 @@ def main(image):
 
 # #  for testing
 
-image=get_binary_image("55.PNG")
-kernel = np.ones((3, 3), np.uint8)
-# mask = cv2.dilate(mask, kernel, iterations=4)
-image = cv2.erode(image, kernel, iterations=10)
-print(main(image))
+# image=get_binary_image("11.PNG")
+# kernel = np.ones((3, 3), np.uint8)
+# # mask = cv2.dilate(mask, kernel, iterations=4)
+# image = cv2.erode(image, kernel, iterations=10)
+# print(main(image))
 
 
 '''
