@@ -72,12 +72,17 @@ def get_the_no_of_fingers(parameter1,parameter2,parameter3,parameter4,parameter5
 
     if  no_of_fingers_from_parameter4>5:
         no_of_fingers_from_parameter4=5
+    if no_of_fingers_from_parameter5 > 5:
+        no_of_fingers_from_parameter5 = 5
 
     if no_of_fingers_from_parameter2<0 :
         no_of_fingers_from_parameter2=0
 
     if  no_of_fingers_from_parameter4<0:
         no_of_fingers_from_parameter4=0
+
+    if no_of_fingers_from_parameter5<0 :
+        no_of_fingers_from_parameter5=0
 
     # text=str(no_of_fingers_from_parameter2)+" or " +str(no_of_fingers_from_parameter4)+" or " +str(no_of_fingers_from_parameter5)
     text=str(round((no_of_fingers_from_parameter2 + no_of_fingers_from_parameter4 + no_of_fingers_from_parameter5)/3))
@@ -241,16 +246,19 @@ def get_estimate_parameters(image):
 
 # for air drawing use extreme points
 def air_drawing(image):
-    # determine contour
-    contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    try:
+        # determine contour
+        contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
-    # get the max contour
-    contour = get_contour_max_area(contours)
-    # get top point for finger index
-    top_point = tuple(contour[contour[:, :, 1].argmin()][0])
-    # make the point slightly lower for the finger
-    x,y=top_point[0],top_point[1]
-    return (x,y+15)
+        # get the max contour
+        contour = get_contour_max_area(contours)
+        # get top point for finger index
+        top_point = tuple(contour[contour[:, :, 1].argmin()][0])
+        # make the point slightly lower for the finger
+        x,y=top_point[0],top_point[1]
+        return (x,y+15)
+    except:
+        pass
 
 
 # takes an image and returns text to be displayed
