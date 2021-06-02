@@ -62,7 +62,8 @@ def get_estimate_parameters(image):
     # parameter 3 theta of triangle in defects
     # parameter 4 get the arclength of convex hull
 
-    image2=cv2.imread('1.jpg', 1)
+    # draw stuff on a random image
+    # image2=cv2.imread('1.jpg', 1)
     # determine contour
     contours, hierarchy2 = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -70,7 +71,7 @@ def get_estimate_parameters(image):
     contour=get_contour_max_area(contours)
 
     # draw contour
-    image2 = cv2.drawContours(image2, contours, -1, (0, 255, 20), 3)
+    # image2 = cv2.drawContours(image2, contours, -1, (0, 255, 20), 3)
 
 
     # find convex hull
@@ -100,7 +101,7 @@ def get_estimate_parameters(image):
         # ///////////////// parameter 2 area of triangle in defects
         triangle_area.append( 0.5 * d * distance)
         # draw convex hull
-        cv2.line(image2, start, end, [255, 0, 0], 2)
+        # cv2.line(image2, start, end, [255, 0, 0], 2)
         # /////////// parameter 3 theta of triangle in defects
         #  get the angle of the triangle
         a1 = get_dist_and_slope(start[0], start[1], far[0], far[1])[0]
@@ -111,9 +112,9 @@ def get_estimate_parameters(image):
             hull_side_length.append(a3)
         theta.append( math.acos(((a1) ** 2 + (a2) ** 2 - (a3) ** 2) / (2 * (a1) * (a2))) * 180 / math.pi )
 
-        if triangle_area[i]>50000 and theta[i]<90:
+        # if triangle_area[i]>50000 and theta[i]<90:
             # draw defects
-            cv2.circle(image2, far, 5, [0, 0, 255], -1)
+            # cv2.circle(image2, far, 5, [0, 0, 255], -1)
 
     parameter2 = triangle_area
     parameter3=theta
@@ -151,15 +152,13 @@ def get_estimate_parameters(image):
 
     # show contour on plt.show
 
-    # show binary image
-    # a=plt.figure(1)
-    # plt.imshow(image3_binary, cmap='gray')
-    # a.show()
     # show contour image
-    b=plt.figure(2)
-    plt.imshow(image2,cmap="gray")
-    # b.show()
-    plt.show()
+    # b=plt.figure(2)
+    # plt.imshow(image2,cmap="gray")
+    # # b.show()
+    # plt.show()
+
+    # return
     return parameter1,parameter2,parameter3,parameter4
 
 # for air drawing use extreme points
@@ -192,6 +191,13 @@ def main(image):
 #     image1_binary=get_binary_image("1.jpg")
 #     image2_binary=get_binary_image("4.jpg")
 #     image3_binary=get_binary_image("8.jpg")
+
+
+
+    # show binary image
+    # a=plt.figure(1)
+    # plt.imshow(image3_binary, cmap='gray')
+    # a.show()
 #
 #     # find convex hull
 #     hull=cv2.convexHull(get_contour_max_area(contours2))
