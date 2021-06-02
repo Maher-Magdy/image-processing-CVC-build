@@ -9,6 +9,7 @@ while True:
         m=module.mask(image)
         text=contour_module.main(m)
         org =(0,image.shape[0])
+        # show the text on window
         cv2.putText(image, text, org, cv2.FONT_HERSHEY_SIMPLEX, 2, (150, 10,200), 5, cv2.LINE_AA)
         cv2.imshow("video", image)
         #cv2.imshow("mask",m)
