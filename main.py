@@ -9,9 +9,9 @@ flag =1
 point_list=[]
 count=0
 try:
-        with open( "mode.txt", "r+") as input:
-                for line in input:
-                        flag=int(line)
+    with open( "mode.txt", "r+") as input:
+        for line in input:
+            flag=int(line)
 except:
         pass
 
@@ -27,25 +27,34 @@ while True:
         #cv2.imshow("mask",m)
         #print(contour_module.main(m))
    elif flag==1:
-        if count%5==0:
-                point=contour_module.air_drawing(m)
-        p=(point[0]+50,point[1]+50)
-        point_list.append(p)
-        cv2.circle(image,p,2, (0, 0, 255), 10)
-        for pnt in range(len(point_list)):
-                if count!=0 and pnt>1:
-                        cv2.line(image,point_list[pnt-1],point_list[pnt], [255, 0, 0], 2)
-        #a = np.zeros_like(image)
-        #for i in range(len(point_list)):
-         #       a[point_list[i][0]-50][point_list[i][1]-50] = 255
-        #contours,_=cv2.findContours(a,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
-        #approx = cv2.approxPolyDP(contours[0], 1, True)
-        #cv2.drawContours(image, [approx], -1, (255, 0, 0), 3)
+       try:
+            if count%5==0:
+                    point=contour_module.air_drawing(m)
+            p=(point[0]+50,point[1]+50)
+            point_list.append(p)
+            cv2.circle(image,p,2, (0, 0, 255), 10)
+            for pnt in range(len(point_list)):
+                    if count!=0 and pnt>1:
+                            cv2.line(image,point_list[pnt-1],point_list[pnt], [255, 0, 0], 2)
 
-        cv2.imshow("video", image)
+
+            cv2.imshow("video", image)
+       except:
+           pass
    k = cv2.waitKey(1) & 0xFF
    if k == ord('q'):
            break
    count+=1
 cv2.destroyAllWindows()
 cap.release()
+
+
+
+# trash
+#  trying to approximate and remove noise
+# a = np.zeros_like(image)
+# for i in range(len(point_list)):
+#       a[point_list[i][0]-50][point_list[i][1]-50] = 255
+# contours,_=cv2.findContours(a,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+# approx = cv2.approxPolyDP(contours[0], 1, True)
+# cv2.drawContours(image, [approx], -1, (255, 0, 0), 3)
