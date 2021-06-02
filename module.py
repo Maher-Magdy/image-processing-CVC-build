@@ -13,7 +13,7 @@ def mask(image):
     mask = cv2.inRange(hsv, lower_skin, upper_skin)
     # extrapolate the hand to fill dark spots within
     mask = cv2.dilate(mask, kernel, iterations=4)
-    mask = cv2.erode(mask, kernel, iterations=8)
+    mask = cv2.erode(mask, kernel, iterations=9)
     # blur the image
     mask = cv2.GaussianBlur(mask, (5, 5), 100)
     image = cv2.flip(image, 1)

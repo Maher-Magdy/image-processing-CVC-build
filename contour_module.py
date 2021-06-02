@@ -39,11 +39,14 @@ def get_dist_and_slope(x1, y1, x2, y2):
     return [distance ,slope]
 
 # get the number of fingers to use later
-def get_the_no_of_fingers(parameter1,parameter2,parameter3,parameter4):
+def get_the_no_of_fingers(parameter1,parameter2,parameter3,parameter4,parameter5):
     text=""
     # return 0 in case of  small parameter1
     if parameter1<1.20:
         return "0"
+    elif parameter1<1:
+        return"please put your hand in the frame"
+    no_of_fingers_from_parameter5=parameter5-2
     # calculate parameter2,3
     no_of_fingers_from_parameter2=1
     no_of_fingers_from_parameter4=len(parameter4)-1
@@ -60,16 +63,16 @@ def get_the_no_of_fingers(parameter1,parameter2,parameter3,parameter4):
     if no_of_fingers_from_parameter2<0 :
         no_of_fingers_from_parameter2=0
 
-    if  no_of_fingers_from_parameter4>0:
+    if  no_of_fingers_from_parameter4<0:
         no_of_fingers_from_parameter4=0
 
 
        # check if both give the same result
-    if no_of_fingers_from_parameter2==no_of_fingers_from_parameter4 :
+    if no_of_fingers_from_parameter2==no_of_fingers_from_parameter4 and no_of_fingers_from_parameter2==no_of_fingers_from_parameter5:
         text=str(no_of_fingers_from_parameter2)
     else:
-        text=str(no_of_fingers_from_parameter2)+" or " +str(no_of_fingers_from_parameter4)
-    return str(text)+" p1= " +str(parameter1)
+        text=str(no_of_fingers_from_parameter2)+" or " +str(no_of_fingers_from_parameter4)+" or " +str(no_of_fingers_from_parameter5)
+    return str(text)
 
 # takes a binary image and return estimated parameters like area
 def get_estimate_parameters(image):
@@ -140,10 +143,32 @@ def get_estimate_parameters(image):
 
 
 
-    # #  /////////////// parameter 5 circle or elipse whichever works
-    # # draw a circle that intersects with fingers
-    # (x,y),radius = cv2.minEnclosingCircle(contour)
-    # cv2.circle(image2, (int(x), int(y)), int(radius/1.5 ), (255, 0, 255), 2)
+    #  /////////////// parameter 5 circle or elipse whichever works
+    # draw a circle that intersects with fingers
+    (x,y),radius = cv2.minEnclosingCircle(contour)
+    scaled_radius=radius/1.4
+    # cv2.circle(image2, (int(x), int(y)), int(scaled_radius), (255, 0, 255), 2)
+
+    # get intersection
+    black_background1 = np.zeros_like(image)
+    black_background2 = np.zeros_like(image)
+    contour_only=cv2.drawContours(black_background1, contours, -1, (1, 1, 1), 18)
+    # cv2.fillPoly(black_background1, pts=contour_only, color=(255, 255, 255))
+    circle=cv2.circle(black_background2, (int(x), int(y)), int(scaled_radius), (1, 1, 1), 5)
+    intersections=cv2.bitwise_and(contour_only, circle)
+    intersections_contours,_=cv2.findContours(intersections, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    parameter5=len(intersections_contours)
+
+    # check if point is inside the contour
+    # for i in range(len(circle)):
+    #     a=cv2.pointPolygonTest(contour, tuple(circle[i]), False)
+
+
+    # draw circle intersecting with contour
+    # image2=intersections
+
+
+
     #
     # ellipse = cv2.fitEllipse(contour)
     # cv2.ellipse(image2, ellipse, (0, 255, 0), 2)
@@ -169,14 +194,14 @@ def get_estimate_parameters(image):
 
     # show contour on plt.show
 
-    # show contour image
+    # # show contour image
     # b=plt.figure(2)
     # plt.imshow(image2,cmap="gray")
     # # b.show()
     # plt.show()
 
     # return
-    return parameter1,parameter2,parameter3,parameter4
+    return parameter1,parameter2,parameter3,parameter4,parameter5
 
 # for air drawing use extreme points
 def air_drawing():
@@ -184,22 +209,21 @@ def air_drawing():
 
 # takes an image and returns text to be displayed
 def main(image):
+
     try:
-        p1,p2,p3,p4=(get_estimate_parameters(image))
-        return get_the_no_of_fingers(p1,p2,p3,p4)
+        p1,p2,p3,p4,p5=(get_estimate_parameters(image))
+        return get_the_no_of_fingers(p1,p2,p3,p4,p5)
     except Exception as e :
         # print(e)
         return "no hand detected !"
 
 
 # #  for testing
-# image=get_binary_image("44.png")
-# print(main(image))
+
 # mask=get_binary_image("11.PNG")
 # kernel = np.ones((3, 3), np.uint8)
-# kernel_for_erosion=np.array([[1],[1],[1],[1],[1],[1],[1]])
 # # mask = cv2.dilate(mask, kernel, iterations=4)
-# mask = cv2.erode(mask, kernel, iterations=8)
+# mask = cv2.erode(mask, kernel, iterations=10)
 # print(main(mask))
 
 
