@@ -79,13 +79,8 @@ def get_the_no_of_fingers(parameter1,parameter2,parameter3,parameter4,parameter5
     if  no_of_fingers_from_parameter4<0:
         no_of_fingers_from_parameter4=0
 
-
-       # check if both give the same result
-    if no_of_fingers_from_parameter2==no_of_fingers_from_parameter4 and no_of_fingers_from_parameter2==no_of_fingers_from_parameter5:
-        text=str(no_of_fingers_from_parameter2)
-    else:
-        # text=str(no_of_fingers_from_parameter2)+" or " +str(no_of_fingers_from_parameter4)+" or " +str(no_of_fingers_from_parameter5)
-        text=str(round((no_of_fingers_from_parameter2+no_of_fingers_from_parameter4+no_of_fingers_from_parameter5)/3))
+    # text=str(no_of_fingers_from_parameter2)+" or " +str(no_of_fingers_from_parameter4)+" or " +str(no_of_fingers_from_parameter5)
+    text=str(round((no_of_fingers_from_parameter2 + no_of_fingers_from_parameter4 + no_of_fingers_from_parameter5)/3))
     return str(text)
 
 # takes a binary image and return estimated parameters like area
@@ -101,7 +96,7 @@ def get_estimate_parameters(image):
     except:
         pass
     # determine contour
-    contours, hierarchy2 = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
     # get the max contour
     contour=get_contour_max_area(contours)
@@ -245,8 +240,18 @@ def get_estimate_parameters(image):
     return parameter1,parameter2,parameter3,parameter4,parameter5
 
 # for air drawing use extreme points
-def air_drawing():
-    pass
+def air_drawing(image):
+    # determine contour
+    contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
+    # get the max contour
+    contour = get_contour_max_area(contours)
+    # get top point for finger index
+    top_point = tuple(contour[contour[:, :, 1].argmin()][0])
+    # make the point slightly lower for the finger
+    x,y=top_point[0],top_point[1]
+    return (x,y+15)
+
 
 # takes an image and returns text to be displayed
 def main(image):
@@ -260,7 +265,16 @@ def main(image):
 
 
 # #  for testing
-
+#
+# image = get_binary_image("11.PNG")
+# a=air_drawing(image)
+# print(a)
+# # # draw contour
+#
+# b=plt.figure(2)
+# plt.imshow(image,cmap="gray")
+# # b.show()
+# plt.show()
 # image=get_binary_image("11.PNG")
 # kernel = np.ones((3, 3), np.uint8)
 # # mask = cv2.dilate(mask, kernel, iterations=4)
