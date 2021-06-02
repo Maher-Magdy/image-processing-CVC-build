@@ -27,20 +27,20 @@ while True:
         #cv2.imshow("mask",m)
         #print(contour_module.main(m))
    elif flag==1:
-       try:
-            if count%5==0:
-                    point=contour_module.air_drawing(m)
-            p=(point[0]+50,point[1]+50)
-            point_list.append(p)
-            cv2.circle(image,p,2, (0, 0, 255), 10)
-            for pnt in range(len(point_list)):
-                    if count!=0 and pnt>1:
-                            cv2.line(image,point_list[pnt-1],point_list[pnt], [255, 0, 0], 2)
+       # try:
+        if count%5==0:
+                point=contour_module.air_drawing(m)
+        p=(point[0]+50,point[1]+50)
+        point_list.append(p)
+        cv2.circle(image,p,2, (0, 0, 255), 10)
+        for pnt in range(len(point_list)):
+                if count!=0 and pnt>1:
+                        cv2.line(image,point_list[pnt-1],point_list[pnt], [255, 0, 0], 2)
 
 
 
-       except:
-           pass
+       # except:
+       #     pass
        cv2.imshow("video", image)
    k = cv2.waitKey(1) & 0xFF
    if k == ord('q'):
