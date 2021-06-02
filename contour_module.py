@@ -41,19 +41,35 @@ def get_dist_and_slope(x1, y1, x2, y2):
 # get the number of fingers to use later
 def get_the_no_of_fingers(parameter1,parameter2,parameter3,parameter4):
     text=""
-    no_of_fingers_from_parameter1 = 0
+    # return 0 in case of  small parameter1
+    if parameter1<1.20:
+        return "0"
+    # calculate parameter2,3
     no_of_fingers_from_parameter2=1
-    no_of_fingers_from_parameter4=str(len(parameter4)-1)
+    no_of_fingers_from_parameter4=len(parameter4)-1
     for i in range(len(parameter2)):
         if parameter2[i] > 50000 and parameter3[i] < 90:
-            no_of_fingers_from_parameter2+=1
-    no_of_fingers_from_parameter2 = str(no_of_fingers_from_parameter2)
-    # check if both give the same result
-    if no_of_fingers_from_parameter2==no_of_fingers_from_parameter4:
-        text=no_of_fingers_from_parameter4
+            no_of_fingers_from_parameter2 +=1
+    # limit finger to [0:5]
+    if no_of_fingers_from_parameter2>5 :
+        no_of_fingers_from_parameter2=5
+
+    if  no_of_fingers_from_parameter4>5:
+        no_of_fingers_from_parameter4=5
+
+    if no_of_fingers_from_parameter2<0 :
+        no_of_fingers_from_parameter2=0
+
+    if  no_of_fingers_from_parameter4>0:
+        no_of_fingers_from_parameter4=0
+
+
+       # check if both give the same result
+    if no_of_fingers_from_parameter2==no_of_fingers_from_parameter4 :
+        text=str(no_of_fingers_from_parameter2)
     else:
-        text=no_of_fingers_from_parameter2+" or " +no_of_fingers_from_parameter4
-    return text
+        text=str(no_of_fingers_from_parameter2)+" or " +str(no_of_fingers_from_parameter4)
+    return str(text)+" p1= " +str(parameter1)
 
 # takes a binary image and return estimated parameters like area
 def get_estimate_parameters(image):
@@ -63,7 +79,7 @@ def get_estimate_parameters(image):
     # parameter 4 get the arclength of convex hull
 
     # draw stuff on a random image
-    # image2=cv2.imread('1.jpg', 1)
+    image2=cv2.imread('1.jpg', 1)
     # determine contour
     contours, hierarchy2 = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -71,7 +87,7 @@ def get_estimate_parameters(image):
     contour=get_contour_max_area(contours)
 
     # draw contour
-    # image2 = cv2.drawContours(image2, contours, -1, (0, 255, 20), 3)
+    image2 = cv2.drawContours(image2, contours, -1, (0, 255, 20), 3)
 
 
     # find convex hull
@@ -101,20 +117,21 @@ def get_estimate_parameters(image):
         # ///////////////// parameter 2 area of triangle in defects
         triangle_area.append( 0.5 * d * distance)
         # draw convex hull
-        # cv2.line(image2, start, end, [255, 0, 0], 2)
+        cv2.line(image2, start, end, [255, 0, 0], 2)
         # /////////// parameter 3 theta of triangle in defects
         #  get the angle of the triangle
         a1 = get_dist_and_slope(start[0], start[1], far[0], far[1])[0]
         a2 = get_dist_and_slope(far[0], far[1], end[0], end[1])[0]
         a3,a3_slope = get_dist_and_slope(start[0], start[1], end[0], end[1])
+        theta.append(math.acos(((a1) ** 2 + (a2) ** 2 - (a3) ** 2) / (2 * (a1) * (a2))) * 180 / math.pi)
         # ////////// parameter 4 get the arclength of convex hull = no of fingers +1
         if (a3>25 and abs(a3_slope) <50) or (a3>100 ) :
             hull_side_length.append(a3)
-        theta.append( math.acos(((a1) ** 2 + (a2) ** 2 - (a3) ** 2) / (2 * (a1) * (a2))) * 180 / math.pi )
 
-        # if triangle_area[i]>50000 and theta[i]<90:
+
+        if triangle_area[i]>50000 and theta[i]<90:
             # draw defects
-            # cv2.circle(image2, far, 5, [0, 0, 255], -1)
+            cv2.circle(image2, far, 5, [0, 0, 255], -1)
 
     parameter2 = triangle_area
     parameter3=theta
@@ -153,10 +170,10 @@ def get_estimate_parameters(image):
     # show contour on plt.show
 
     # show contour image
-    # b=plt.figure(2)
-    # plt.imshow(image2,cmap="gray")
-    # # b.show()
-    # plt.show()
+    b=plt.figure(2)
+    plt.imshow(image2,cmap="gray")
+    # b.show()
+    plt.show()
 
     # return
     return parameter1,parameter2,parameter3,parameter4
@@ -170,14 +187,20 @@ def main(image):
     try:
         p1,p2,p3,p4=(get_estimate_parameters(image))
         return get_the_no_of_fingers(p1,p2,p3,p4)
-    except:
-        return "error :please put your hand inside the green frame"
+    except Exception as e :
+        # print(e)
+        return "no hand detected !"
 
 
 # #  for testing
 # image=get_binary_image("44.png")
 # print(main(image))
-
+mask=get_binary_image("11.PNG")
+kernel = np.ones((3, 3), np.uint8)
+kernel_for_erosion=np.array([[1],[1],[1],[1],[1],[1],[1]])
+# mask = cv2.dilate(mask, kernel, iterations=4)
+mask = cv2.erode(mask, kernel, iterations=8)
+print(main(mask))
 
 
 '''
@@ -245,3 +268,4 @@ def main(image):
 # contours,hierarchy = cv2.findContours(img2,cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 # cnt3 = get_contour_max_area(contours)
 '''
+
