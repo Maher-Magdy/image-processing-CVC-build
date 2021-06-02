@@ -251,7 +251,9 @@ def air_drawing(image):
         contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
         # get the max contour
-        contour = get_contour_max_area(contours)
+        contour,contour_area = get_contour_max_area(contours,True)
+        if contour_area<10000:
+            return
         # get top point for finger index
         top_point = tuple(contour[contour[:, :, 1].argmin()][0])
         # make the point slightly lower for the finger
@@ -283,7 +285,8 @@ def main(image):
 # plt.imshow(image,cmap="gray")
 # # b.show()
 # plt.show()
-# image=get_binary_image("11.PNG")
+# image=get_binary_image("55.PNG")
+# print(main(image))
 # kernel = np.ones((3, 3), np.uint8)
 # # mask = cv2.dilate(mask, kernel, iterations=4)
 # image = cv2.erode(image, kernel, iterations=10)
