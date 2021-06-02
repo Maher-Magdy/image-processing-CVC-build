@@ -260,7 +260,7 @@ def air_drawing(image):
         x,y=top_point[0],top_point[1]
         return (x,y+15)
     except:
-        pass
+        return (50,50)
 
 
 # takes an image and returns text to be displayed
