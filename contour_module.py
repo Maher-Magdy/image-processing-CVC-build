@@ -258,7 +258,7 @@ def air_drawing(image):
         top_point = tuple(contour[contour[:, :, 1].argmin()][0])
         # make the point slightly lower for the finger
         x,y=top_point[0],top_point[1]
-        return (x,y+15)
+        return (x+50,y+65)
     except:
         return (-1,-1)
 

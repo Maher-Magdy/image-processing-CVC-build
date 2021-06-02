@@ -35,10 +35,9 @@ while True:
                     point=(150,150)
                 else:
                     point=point_list[-1]
-            else:
-                p=(point[0]+50,point[1]+50)
-        point_list.append(p)
-        cv2.circle(image,p,2, (0, 0, 255), 10)
+
+        point_list.append(point)
+        cv2.circle(image,point,2, (0, 0, 255), 10)
         for pnt in range(len(point_list)):
                 if count!=0 and pnt>1:
                         cv2.line(image,point_list[pnt-1],point_list[pnt], [255, 0, 0], 2)
