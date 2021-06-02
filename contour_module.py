@@ -187,7 +187,7 @@ def get_estimate_parameters(image):
             if intersections_contours_list[j]>=intersections_contours_list[i]*.975 and intersections_contours_list[j]<=intersections_contours_list[i]*1.025 :
                 intersections_contours_list[j]=1000
 
-    print(intersections_contours_list)
+    # print(intersections_contours_list)
 
     # parameter5=len(intersections_contours)
     parameter5=intersections_contours_list
