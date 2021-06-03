@@ -48,13 +48,16 @@ def get_dist_and_slope(x1, y1, x2, y2,accurate_angle=False):
     return [distance ,slope]
 
 # get the number of fingers to use later
-def get_the_no_of_fingers(parameter1,parameter2,parameter3,parameter4,parameter5):
+def get_the_no_of_fingers(parameter1,parameter2,parameter3,parameter4,parameter5,parameter6):
     text=""
     # return 0 in case of  small parameter1
     if parameter1<1.20:
         return "0"
     elif parameter1<1:
         return"please put your hand in the frame"
+    #  return no hand detected if area of contour is too small
+    if parameter6<1000:
+        return "no hand detected"
     # parameter 5
     no_of_fingers_from_parameter5=0
     for i in range(len(parameter5)):
@@ -197,6 +200,8 @@ def get_estimate_parameters(image):
     # parameter5=len(intersections_contours)
     parameter5=intersections_contours_list
 
+    # ////////////// parameter6 area of contour
+    parameter6=cv2.contourArea(contour)
     # check if point is inside the contour
     # for i in range(len(circle)):
     #     a=cv2.pointPolygonTest(contour, tuple(circle[i]), False)
@@ -242,7 +247,7 @@ def get_estimate_parameters(image):
     # plt.show()
 
     # return
-    return parameter1,parameter2,parameter3,parameter4,parameter5
+    return parameter1,parameter2,parameter3,parameter4,parameter5,parameter6
 
 # for air drawing use extreme points
 def air_drawing(image):
@@ -267,8 +272,8 @@ def air_drawing(image):
 def main(image):
 
     try:
-        p1,p2,p3,p4,p5=(get_estimate_parameters(image))
-        return get_the_no_of_fingers(p1,p2,p3,p4,p5)
+        p1,p2,p3,p4,p5,p6=(get_estimate_parameters(image))
+        return get_the_no_of_fingers(p1,p2,p3,p4,p5,p6)
     except Exception as e :
         # print(e)
         return "no hand detected !"
