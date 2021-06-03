@@ -50,14 +50,15 @@ def get_dist_and_slope(x1, y1, x2, y2,accurate_angle=False):
 # get the number of fingers to use later
 def get_the_no_of_fingers(parameter1,parameter2,parameter3,parameter4,parameter5,parameter6):
     text=""
+    #  return no hand detected if area of contour is too small
+    if parameter6 < 2000:
+        return "no hand detected"
     # return 0 in case of  small parameter1
     if parameter1<1.20:
         return "0"
     elif parameter1<1:
         return"please put your hand in the frame"
-    #  return no hand detected if area of contour is too small
-    if parameter6<1000:
-        return "no hand detected"
+
     # parameter 5
     no_of_fingers_from_parameter5=0
     for i in range(len(parameter5)):
@@ -257,7 +258,7 @@ def air_drawing(image):
 
         # get the max contour
         contour,contour_area = get_contour_max_area(contours,True)
-        if contour_area<1000:
+        if contour_area<2000:
             return (-1,-1)
         # get top point for finger index
         top_point = tuple(contour[contour[:, :, 1].argmin()][0])
