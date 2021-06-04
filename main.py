@@ -43,10 +43,7 @@ while True:
                         cv2.line(image,point_list[pnt-1],point_list[pnt], [255, 0, 0], 2)
 
 
-
-       # except:
-       #     pass
-       cv2.imshow("video", image)
+        cv2.imshow("video", image)
    k = cv2.waitKey(1) & 0xFF
    if k == ord('q'):
            break
