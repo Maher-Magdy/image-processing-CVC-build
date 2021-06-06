@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 # from sklearn.metrics import pairwise
 import math
 
+
 #get binary image form colored image used only in testing
 def get_binary_image(image_path,threshold=50):
     # read binary image
@@ -268,6 +269,22 @@ def air_drawing(image):
     except:
         return (-1,-1)
 
+def mouse_control(image):
+    try:
+        no_of_fingers=main(image.copy())
+        # determine contour
+        contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        # get the max contour
+        contour, contour_area = get_contour_max_area(contours, True)
+        if contour_area < 2000:
+            return (-1, -1)
+        # get top point for finger index
+        top_point = tuple(contour[contour[:, :, 1].argmin()][0])
+        # make the point slightly lower for the finger
+        x, y = top_point[0], top_point[1]
+        return (x + 50, y + 65)
+    except:
+        return (-1, -1)
 
 # takes an image and returns text to be displayed
 def main(image):
@@ -291,8 +308,7 @@ def main(image):
 # plt.imshow(image,cmap="gray")
 # # b.show()
 # plt.show()
-# image=get_binary_image("55.PNG")
-# print(main(image))
+# image=get_binary_image("22.PNG")
 # kernel = np.ones((3, 3), np.uint8)
 # # mask = cv2.dilate(mask, kernel, iterations=4)
 # image = cv2.erode(image, kernel, iterations=10)

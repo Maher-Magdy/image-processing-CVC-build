@@ -2,12 +2,14 @@ import cv2
 import threshold_module
 import contour_module
 import numpy as np
+import mouse
+import pyautogui
 cap = cv2.VideoCapture(0)
 cap.set(3,640)
 cap.set(4,480)
 flag =1
 point_list=[]
-count=0
+count=0 #frame counter
 try:
     with open( "mode.txt", "r+") as input:
         for line in input:
@@ -41,16 +43,30 @@ while True:
         for pnt in range(len(point_list)):
                 if count!=0 and pnt>1:
                         cv2.line(image,point_list[pnt-1],point_list[pnt], [255, 0, 0], 2)
-
-
-
        # except:
        #     pass
         cv2.imshow("video", image)
+   elif flag==2:
+       if count % 5 == 0:
+           command=contour_module.mouse_control(m)
+           if command!=(-1,-1): # ignore (-1,-1) as it represents an error
+               if command =="": # specify click symbol
+                   mouse.click('left')
+               else: # move the mouse
+                   # scale the mouse position to cover the whole screen
+                   command *= pyautogui.size()/(300,300)
+                   mouse.move(command, absolute=False, duration=0.1)
+            #    mouse move and click
+
+       cv2.imshow("video", image)
+
+   #   to quit press 'q'
    k = cv2.waitKey(1) & 0xFF
    if k == ord('q'):
            break
+   #  increase frame counter
    count+=1
+# close
 cv2.destroyAllWindows()
 cap.release()
 
