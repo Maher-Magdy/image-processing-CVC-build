@@ -47,7 +47,7 @@ while True:
        #     pass
         cv2.imshow("video", image)
    elif flag==2:
-       if count % 5 == 0:
+       if count % 2 == 0:
            command=contour_module.mouse_control(m)
            if command!=(-1,-1): # ignore (-1,-1) as it represents an error
                if command =="left":
@@ -60,7 +60,7 @@ while True:
                        x,y=pyautogui.size()
                        x=round(command[0]*x/300)
                        y=round(command[0]*y/300)
-                       mouse.move(x,y, absolute=False, duration=0.1)
+                       mouse.move(x,y, absolute=True, duration=0.01)
                    except:
                        pass
 
@@ -72,7 +72,6 @@ while True:
    if k == ord('q'):
            break
    #  increase frame counter
-   count+=1
 # close
 cv2.destroyAllWindows()
 cap.release()
