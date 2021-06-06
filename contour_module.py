@@ -276,7 +276,7 @@ def mouse_control(image):
         elif no_of_fingers=="5":
             return  "left"
 
-        elif no_of_fingers=="1":
+        elif no_of_fingers=="1" or no_of_fingers=="2":
             # determine contour
             contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
             # get the max contour
