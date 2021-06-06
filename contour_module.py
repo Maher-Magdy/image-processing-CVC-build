@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 # from sklearn.metrics import pairwise
 import math
 
-
 #get binary image form colored image used only in testing
 def get_binary_image(image_path,threshold=50):
     # read binary image
@@ -289,6 +288,8 @@ def mouse_control(image):
             # make the point slightly lower for the finger
             x, y = top_point[0], top_point[1]
             return (x , y + 15)
+        else :
+            return (-1,-1)
     except:
         return (-1, -1)
 

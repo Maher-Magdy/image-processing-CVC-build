@@ -55,12 +55,15 @@ while True:
                elif command == "right":
                    mouse.click('right')
                else: # move the mouse
-                   # scale the mouse position to cover the whole screen
-                   x,y=pyautogui.size()
-                   x=round(command[0]*x/300)
-                   y=round(command[0]*y/300)
-                   mouse.move(x,y, absolute=False, duration=0.1)
-            #    mouse move and click
+                   try:
+                       # scale the mouse position to cover the whole screen
+                       x,y=pyautogui.size()
+                       x=round(command[0]*x/300)
+                       y=round(command[0]*y/300)
+                       mouse.move(x,y, absolute=False, duration=0.1)
+                   except:
+                       pass
+
 
        cv2.imshow("video", image)
 
