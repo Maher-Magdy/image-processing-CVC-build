@@ -272,17 +272,23 @@ def air_drawing(image):
 def mouse_control(image):
     try:
         no_of_fingers=main(image.copy())
-        # determine contour
-        contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        # get the max contour
-        contour, contour_area = get_contour_max_area(contours, True)
-        if contour_area < 2000:
-            return (-1, -1)
-        # get top point for finger index
-        top_point = tuple(contour[contour[:, :, 1].argmin()][0])
-        # make the point slightly lower for the finger
-        x, y = top_point[0], top_point[1]
-        return (x + 50, y + 65)
+        if no_of_fingers=="4":
+            return "right"
+        elif no_of_fingers=="5":
+            return  "left"
+
+        elif no_of_fingers=="1":
+            # determine contour
+            contours, _ = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+            # get the max contour
+            contour, contour_area = get_contour_max_area(contours, True)
+            if contour_area < 2000:
+                return (-1, -1)
+            # get top point for finger index
+            top_point = tuple(contour[contour[:, :, 1].argmin()][0])
+            # make the point slightly lower for the finger
+            x, y = top_point[0], top_point[1]
+            return (x , y + 15)
     except:
         return (-1, -1)
 

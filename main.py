@@ -50,12 +50,16 @@ while True:
        if count % 5 == 0:
            command=contour_module.mouse_control(m)
            if command!=(-1,-1): # ignore (-1,-1) as it represents an error
-               if command =="": # specify click symbol
+               if command =="left":
                    mouse.click('left')
+               elif command == "right":
+                   mouse.click('right')
                else: # move the mouse
                    # scale the mouse position to cover the whole screen
-                   command *= pyautogui.size()/(300,300)
-                   mouse.move(command, absolute=False, duration=0.1)
+                   x,y=pyautogui.size()
+                   x=round(command[0]*x/300)
+                   y=round(command[0]*y/300)
+                   mouse.move(x,y, absolute=False, duration=0.1)
             #    mouse move and click
 
        cv2.imshow("video", image)
