@@ -9,7 +9,6 @@ cap.set(3,640)
 cap.set(4,480)
 flag =1
 point_list=[]
-mouse_prev_point=(0,0)
 count=0 #frame counter
 try:
     with open( "mode.txt", "r+") as input:
@@ -61,11 +60,7 @@ while True:
                        x,y=pyautogui.size()
                        x=round(command[0]*x/300)
                        y=round(command[0]*y/300)
-                       # get the difference between current and previous points
-                       x-=mouse_prev_point[0]
-                       y-=mouse_prev_point[1]
-                       mouse.move(x,y, absolute=False, duration=0.01)
-                       mouse_prev_point=(x,y)
+                       mouse.move(x,y, absolute=True, duration=0.01)
                    except:
                        pass
 
