@@ -72,6 +72,7 @@ while True:
    if k == ord('q'):
            break
    #  increase frame counter
+   count+=1
 # close
 cv2.destroyAllWindows()
 cap.release()
