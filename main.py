@@ -79,7 +79,7 @@ cap.release()
 
 
 
-# trash
+# trash code
 #  trying to approximate and remove noise
 # a = np.zeros_like(image)
 # for i in range(len(point_list)):
