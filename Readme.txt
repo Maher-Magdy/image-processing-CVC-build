@@ -20,5 +20,7 @@ Steps to run the application :
 5- when done click "turn the camera off" on the GUI window.
 6- you can try another mode by repeating steps 3-5
 
+_________________________________________________________________________________________________________________________________
+
 the following Demo video demonstrates how to run the application and all of its modes
 Demo video URL :
