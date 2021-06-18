@@ -304,6 +304,17 @@ def main(image):
         return "no hand detected !"
 
 
+
+
+
+
+
+
+
+
+
+#trash code
+
 # #  for testing
 #
 # image = get_binary_image("11.PNG")
@@ -320,6 +331,10 @@ def main(image):
 # # mask = cv2.dilate(mask, kernel, iterations=4)
 # image = cv2.erode(image, kernel, iterations=10)
 # print(main(image))
+
+
+
+
 
 
 '''
