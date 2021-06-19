@@ -315,7 +315,7 @@ namespace Image_Processing_CVC
         }
     }
 }
-
+/*
    public void live_button_cycle()
         {
             try
@@ -349,5 +349,5 @@ namespace Image_Processing_CVC
             live.ForeColor = Color.FromArgb(200,0,0) ;
             live.Location = new Point(200, 200);
 
-
+*/
     
