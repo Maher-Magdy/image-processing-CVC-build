@@ -32,4 +32,4 @@ Note : the background wall and lightening conditions can affect the detection re
 _________________________________________________________________________________________________________________________________________________________________________________
 
 the following Demo video demonstrates how to run the application and all of its modes
-Demo video URL : https://drive.google.com/drive/folders/10gE6PhKnJezz43Q3vIrDcdiUDTmylB04?fbclid=IwAR3NhV_cFyYTsAO_g0aDRcSvT9iRglgQ153hXUSzI44rlYGuX0gDT71kgmI
+Demo video URL :https://drive.google.com/file/d/1wwtm8mZlIidonxtbhET09bB0w4fgzegS/view?usp=sharing
